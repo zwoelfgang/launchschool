@@ -1,5 +1,4 @@
 require 'yaml'
-require 'pry'
 
 PROMPTS = YAML.load_file('mortgage_prompts.yml')
 
