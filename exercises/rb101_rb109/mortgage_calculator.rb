@@ -6,7 +6,7 @@ def output(message)
   puts("=> " + message)
 end
 
-def input()
+def input
   gets.chomp.to_f
 end
 
@@ -23,25 +23,26 @@ loop do
 
   output(PROMPTS['apr'])
 
-  apr = input()
+  apr = input
 
   while apr == 0.0
     output(PROMPTS['invalid'])
-    apr = input()
+    apr = input
   end
 
   output(PROMPTS['duration'])
 
-  loan_duration = input()
+  loan_duration = input
 
   while loan_duration == 0.0
     output(PROMPTS['invalid'])
-    loan_duration = input()
+    loan_duration = input
   end
 
-  monthly_interest = (apr / 100)  / 12
+  monthly_interest = (apr / 100) / 12
   monthly_duration = loan_duration * 12
-  monthly_payment = loan_amount * (monthly_interest / (1 - (1 + monthly_interest)**(-monthly_duration)))
+  monthly_payment = loan_amount * (monthly_interest /
+                    (1 - (1 + monthly_interest)**(-monthly_duration)))
   dollar_payment = "$" + monthly_payment.round(2).to_s
 
   output(PROMPTS['outcome'])
