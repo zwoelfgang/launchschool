@@ -1,4 +1,5 @@
 require 'yaml'
+require 'pry'
 
 PROMPTS = YAML.load_file('mortgage_prompts.yml')
 
@@ -18,12 +19,21 @@ def validation(value)
   value
 end
 
+def negative_check(value)
+  if value < 0
+    value = value.abs
+    output(PROMPTS['conversion'])
+  end
+  value
+end
+
 output(PROMPTS['welcome'])
 
 loop do
   output(PROMPTS['amount'])
   loan_amount = input.to_f
   validation(loan_amount)
+  loan_amount = negative_check(loan_amount)
 
   output(PROMPTS['apr'])
   apr = input
@@ -34,11 +44,13 @@ loop do
   else
     apr = apr.to_f
     validation(apr)
+    apr = negative_check(apr)
   end
 
   output(PROMPTS['duration'])
   loan_duration = input.to_f
   validation(loan_duration)
+  loan_duration = negative_check(loan_duration)
 
   monthly_interest = (apr / 100) / 12
   monthly_duration = loan_duration * 12
@@ -56,7 +68,7 @@ loop do
   output(dollar_payment)
 
   output(PROMPTS['again'])
-  answer = input
+  answer = input.downcase
 
   answer == 'y' ? TRUE : break
 end
