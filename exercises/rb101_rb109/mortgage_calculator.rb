@@ -16,7 +16,7 @@ def validation(value)
     output(PROMPTS['invalid'])
     value = input.to_f
   end
-  return value
+  value
 end
 
 output(PROMPTS['welcome'])
@@ -50,7 +50,7 @@ loop do
   else
     monthly_payment = loan_amount / monthly_duration
   end
-  
+
   dollar_payment = "$" + monthly_payment.round(2).to_s
 
   output(PROMPTS['outcome'])
