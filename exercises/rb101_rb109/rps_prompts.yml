@@ -1,7 +1,9 @@
 
 welcome: "Hi, and welcome to my rock paper scissors (spock and lizard) game!"
 rules: "First to three wins. Ties count as a half point for the player and computer. Ready? Go!"
+moves: "You can use r for rock, p for paper, s for scissors, S or Spock for spock and l for lizard."
 choice: "Please choose one: rock paper scissors spock or lizard"
+beats: "Rock beats lizard and scissors\n   Paper beats rock and spock\n   Scisssors beats paper and lizard\n   Spock beats scissors and rock\n   Lizard beats spock and paper"
 invalid: "Sorry, that choice is invalid."
 winner: "You won!"
 loser: "The computer won!"

@@ -79,7 +79,9 @@ end
 STDOUT.clear_screen
 
 prompt(PROMPTS['welcome'])
+prompt(PROMPTS['beats'])
 prompt(PROMPTS['rules'])
+prompt(PROMPTS['moves'])
 
 catch :restart do
   loop do
