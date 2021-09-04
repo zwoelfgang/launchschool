@@ -1,0 +1,12 @@
+
+welcome: "Hi, and welcome to my mortgage calculator!"
+amount: "Please enter the loan amount:"
+apr: "Please enter the annual percentage rate (APR) in percent:"
+duration: "Please enter the loan duration in years:"
+outcome: "The monthly payment for the loan is:"
+again: "Would you like to make another calculation? (enter y or n)"
+invalid: "Please enter a valid number not equal to zero:"
+conversion: "You put in a negative number so it was converted to positive. Hope that's ok!"
+congrats: "Congrats on the 0% interest!"
+restart: "Did you mean y or n?"
+goodbye: "Thank you for using my mortgage calculator. Bye!"
