@@ -35,7 +35,7 @@ end
 def move_valid?(user_input)
   move = ''
   MOVES.each do |key, value|
-    if value[:alias].include?(user_input)
+    if value[:alias].include?(user_input) || key.include?(user_input)
       move = key
       break
     else
