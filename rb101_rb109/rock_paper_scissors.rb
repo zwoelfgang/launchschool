@@ -3,20 +3,12 @@ require 'io/console'
 
 PROMPTS = YAML.load_file('rps_prompts.yml')
 
-MOVE_INPUT = {
-  'scissors' => %w(paper lizard),
-  'paper' => %w(rock spock),
-  'rock' => %w(lizard scissors),
-  'lizard' => %w(spock paper),
-  'spock' => %w(scissors rock)
-}
-
-MOVE_NAMES = {
-  'scissors' => %w(scissors s),
-  'paper' => %w(paper p),
-  'rock' => %w(rock r),
-  'lizard' => %w(lizard l),
-  'spock' => %w(spock S Spock)
+MOVES = {
+  'scissors' => { beats: %w(paper lizard), alias: 's' },
+  'paper' => { beats: %w(rock spock), alias: 'p' },
+  'rock' => { beats: %w(lizard scissors), alias: 'r' },
+  'lizard' => { beats: %w(spock paper), alias: 'l' },
+  'spock' => { beats: %w(scissors rock), alias: 'sp' }
 }
 
 player_won = 0
@@ -27,7 +19,7 @@ def prompt(message)
 end
 
 def win?(first, second)
-  MOVE_INPUT[first].include?(second)
+  MOVES.fetch(first).fetch(:beats).include?(second)
 end
 
 def winner(wins_player)
@@ -42,8 +34,8 @@ end
 
 def move_valid?(user_input)
   move = ''
-  MOVE_NAMES.each do |key, value|
-    if value.include?(user_input)
+  MOVES.each do |key, value|
+    if value[:alias].include?(user_input)
       move = key
       break
     else
@@ -90,7 +82,7 @@ catch :restart do
     prompt(PROMPTS['choice'])
 
     loop do
-      choice = gets.chomp
+      choice = gets.chomp.downcase
       key = move_valid?(choice)
       if key
         break
@@ -99,7 +91,7 @@ catch :restart do
       end
     end
 
-    computer_choice = MOVE_NAMES.keys.sample
+    computer_choice = MOVES.keys.sample
 
     prompt("You chose #{key}; Computer chose: #{computer_choice}")
 
