@@ -4,11 +4,11 @@ require 'io/console'
 PROMPTS = YAML.load_file('rps_prompts.yml')
 
 MOVES = {
-  'scissors' => { beats: %w(paper lizard), alias: 's' },
-  'paper' => { beats: %w(rock spock), alias: 'p' },
-  'rock' => { beats: %w(lizard scissors), alias: 'r' },
-  'lizard' => { beats: %w(spock paper), alias: 'l' },
-  'spock' => { beats: %w(scissors rock), alias: 'sp' }
+  'scissors' => { beats: %w(paper lizard), alias: %w(s scissors) },
+  'paper' => { beats: %w(rock spock), alias: %w(p paper) },
+  'rock' => { beats: %w(lizard scissors), alias: %w(r rock) },
+  'lizard' => { beats: %w(spock paper), alias: %w(l lizard) },
+  'spock' => { beats: %w(scissors rock), alias: %w(sp spock) }
 }
 
 player_won = 0
@@ -35,7 +35,7 @@ end
 def move_valid?(user_input)
   move = ''
   MOVES.each do |key, value|
-    if value[:alias].include?(user_input) || key.include?(user_input)
+    if value[:alias].include?(user_input)
       move = key
       break
     else
