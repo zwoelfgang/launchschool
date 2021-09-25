@@ -127,8 +127,8 @@ end
 
 def detect_move(brd, player, computer)
   nested_arr = WINNING_LINES.select do |line|
-    brd.values_at(*line).count(COMPUTER_MARKER) == player &&
-      brd.values_at(*line).count(PLAYER_MARKER) == computer
+    brd.values_at(*line).count(PLAYER_MARKER) == player &&
+      brd.values_at(*line).count(COMPUTER_MARKER) == computer
   end
   nested_arr.flatten
 end
