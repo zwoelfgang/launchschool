@@ -18,6 +18,7 @@ DOUBLE_MARKER = 2
 WINNER = 3
 
 SET = { 'five' => 5 }
+STARTING_OPTIONS = ['p', 'c', 'f']
 
 RULES = <<-MSG
 *******************************************
@@ -58,19 +59,16 @@ def decide_current_player
     prompt "Choose who to start: you, or the computer. You can also choose to let the computer decide."
     prompt "('p' for player, 'c' for computer, and 'f' to forfeit the decision):"
     decision = gets.chomp.downcase
-
     if decision.start_with?('p')
-      current_player = "p"
-      break
+      current_player = STARTING_OPTIONS[0]
     elsif decision.start_with?('c')
-      current_player = "c"
-      break
+      current_player = STARTING_OPTIONS[1]
     elsif decision.start_with?('f')
-      current_player = ['p', 'c'].sample
-      break
+      current_player = STARTING_OPTIONS[0..1].sample
     else
       prompt "Sorry, that's not a valid choice."
     end
+    break if STARTING_OPTIONS.include?(decision)
   end
   current_player
 end
@@ -127,34 +125,10 @@ def player_places_piece!(brd)
   brd[square.to_i] = PLAYER_MARKER
 end
 
-def detect_immediate_opportunity(brd)
+def detect_move(brd, player, computer)
   nested_arr = WINNING_LINES.select do |line|
-    brd.values_at(*line).count(COMPUTER_MARKER) == DOUBLE_MARKER &&
-      brd.values_at(*line).count(PLAYER_MARKER) == NO_MARKER
-  end
-  nested_arr.flatten
-end
-
-def detect_immediate_threat(brd)
-  nested_arr = WINNING_LINES.select do |line|
-    brd.values_at(*line).count(PLAYER_MARKER) == DOUBLE_MARKER &&
-      brd.values_at(*line).count(COMPUTER_MARKER) == NO_MARKER
-  end
-  nested_arr.flatten
-end
-
-def detect_opportunity(brd)
-  nested_arr = WINNING_LINES.select do |line|
-    brd.values_at(*line).count(COMPUTER_MARKER) == SINGLE_MARKER &&
-      brd.values_at(*line).count(PLAYER_MARKER) == NO_MARKER
-  end
-  nested_arr.flatten
-end
-
-def detect_threat(brd)
-  nested_arr = WINNING_LINES.select do |line|
-    brd.values_at(*line).count(PLAYER_MARKER) == SINGLE_MARKER &&
-      brd.values_at(*line).count(COMPUTER_MARKER) == NO_MARKER
+    brd.values_at(*line).count(COMPUTER_MARKER) == player &&
+      brd.values_at(*line).count(PLAYER_MARKER) == computer
   end
   nested_arr.flatten
 end
@@ -165,7 +139,7 @@ end
 
 def center_taken?(brd)
   if empty_squares(brd).size == TOTAL_SQUARES - 1 &&
-      brd[CENTER_SQUARE] == PLAYER_MARKER
+     brd[CENTER_SQUARE] == PLAYER_MARKER
     TRUE
   else
     FALSE
@@ -173,10 +147,10 @@ def center_taken?(brd)
 end
 
 def computer_places_piece!(brd)
-  danger_line = detect_immediate_threat(brd)
-  threat_line = detect_threat(brd)
-  opportunity_line = detect_immediate_opportunity(brd)
-  possibility_line = detect_opportunity(brd)
+  danger_line = detect_move(brd, DOUBLE_MARKER, NO_MARKER)
+  threat_line = detect_move(brd, SINGLE_MARKER, NO_MARKER)
+  opportunity_line = detect_move(brd, NO_MARKER, DOUBLE_MARKER)
+  possibility_line = detect_move(brd, NO_MARKER, SINGLE_MARKER)
   only_center_taken = center_taken?(brd)
   square = if only_center_taken
              CORNERS.sample
