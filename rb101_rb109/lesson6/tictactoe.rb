@@ -169,12 +169,12 @@ def computer_places_piece!(brd)
     square = open_place_in_line(brd, opportunity_line).sample
   elsif !danger_line.empty?
     square = open_place_in_line(brd, danger_line).sample
+  elsif empty_squares(brd).include?(CENTER_SQUARE)
+    square = CENTER_SQUARE
   elsif !possibility_line.empty?
     square = open_place_in_line(brd, possibility_line).sample
   elsif !threat_line.empty?
     square = open_place_in_line(brd, threat_line).sample
-  elsif empty_squares(brd).include?(CENTER_SQUARE)
-    square = CENTER_SQUARE
   else
     square = empty_squares(brd).sample
   end
