@@ -7,9 +7,39 @@ COMPUTER_MARKER = 'O'
 WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] +
                 [[1, 5, 9], [3, 5, 7]]
+CORNERS = [1, 3, 7, 9]
+CENTER_SQUARE = 5
+TOTAL_SQUARES = 9
+
+RULES = <<-MSG
+*******************************************
+This is a turn-based game against the
+computer where if you can place an '#{PLAYER_MARKER}' in
+three spaces in a row (diagonals count),
+you win. The computer tries to do the same
+with '#{COMPUTER_MARKER}' and whoever is first to three
+                 wins!
+
+Squares are numbered 1 -- 9 from left to
+right and in descending rows:
+
+                 1|2|3
+                 -+-+-
+                 4|5|6
+                 -+-+-
+                 7|8|9
+
+            Have fun playing!
+*******************************************
+MSG
 
 def prompt(msg)
   puts "=> #{msg}"
+end
+
+def welcome_and_rules
+  puts "*****-----Welcome to Tic Tac Toe!-----*****"
+  puts RULES
 end
 
 def decide_current_player
@@ -35,9 +65,10 @@ def decide_current_player
   current_player
 end
 
-def display_board(brd)
+def display_board(brd, player, computer)
   STDOUT.clear_screen
-  puts "You're an #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}."
+  prompt "The score is #{player} for the player to #{computer} for the computer."
+  prompt "You're an #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}."
   puts ""
   puts "     |     |"
   puts "  #{brd[1]}  |  #{brd[2]}  |  #{brd[3]}"
@@ -55,7 +86,7 @@ end
 
 def initialize_board
   new_board = {}
-  (1..9).each { |num| new_board[num] = INITIAL_MARKER }
+  (1..TOTAL_SQUARES).each { |num| new_board[num] = INITIAL_MARKER }
   new_board
 end
 
@@ -107,22 +138,43 @@ def detect_opportunity(brd)
   end
 end
 
+def detect_threat(brd)
+  WINNING_LINES.select do |line|
+    brd.values_at(*line).count(PLAYER_MARKER) == 1 &&
+      brd.values_at(*line).count(COMPUTER_MARKER) == 0
+  end
+end
+
 def open_place_in_line(brd, line)
   line.select { |value| brd[value] == INITIAL_MARKER }
 end
 
+def center_taken?(brd)
+  if empty_squares(brd).size == TOTAL_SQUARES - 1 && brd[CENTER_SQUARE] == PLAYER_MARKER
+    TRUE
+  else
+    FALSE
+  end
+end
+
 def computer_places_piece!(brd)
-  threat_line = detect_immediate_threat(brd).flatten
+  danger_line = detect_immediate_threat(brd).flatten
+  threat_line = detect_threat(brd).flatten
   opportunity_line = detect_immediate_opportunity(brd).flatten
   possibility_line = detect_opportunity(brd).flatten
-  if !opportunity_line.empty?
+  only_center_taken = center_taken?(brd)
+  if only_center_taken
+    square = CORNERS.sample
+  elsif !opportunity_line.empty?
     square = open_place_in_line(brd, opportunity_line).sample
-  elsif !threat_line.empty?
-    square = open_place_in_line(brd, threat_line).sample
+  elsif !danger_line.empty?
+    square = open_place_in_line(brd, danger_line).sample
   elsif !possibility_line.empty?
     square = open_place_in_line(brd, possibility_line).sample
-  elsif empty_squares(brd).include?(5)
-    square = 5
+  elsif !threat_line.empty?
+    square = open_place_in_line(brd, threat_line).sample
+  elsif empty_squares(brd).include?(CENTER_SQUARE)
+    square = CENTER_SQUARE
   else
     square = empty_squares(brd).sample
   end
@@ -164,40 +216,64 @@ def someone_won?(brd)
   !!detect_winner(brd)
 end
 
-player_score = 0
-computer_score = 0
-
-while player_score < 5 && computer_score < 5
-  current_player = decide_current_player
-
-  board = initialize_board
-
-  loop do
-    display_board(board)
-    place_piece!(board, current_player)
-    current_player = alternate_player(current_player)
-    break if someone_won?(board) || board_full?(board)
-  end
-
-  display_board(board)
-
-  if someone_won?(board)
-    prompt "#{detect_winner(board)} won!"
-    if detect_winner(board) == "Player"
-      player_score += 1
-    elsif detect_winner(board) == "Computer"
-      computer_score += 1
+def update_score(brd, player, computer)
+  if someone_won?(brd)
+    prompt "#{detect_winner(brd)} won!"
+    if detect_winner(brd) == "Player"
+      player += 1
+    elsif detect_winner(brd) == "Computer"
+      computer += 1
     end
   else
     prompt "It's a tie!"
-    player_score += 0.5
-    computer_score += 0.5
+    player += 0.5
+    computer += 0.5
   end
-
-  prompt "Play again? (y or n)"
-  answer = gets.chomp
-  break unless answer.downcase.start_with?('y')
+  return player, computer
 end
 
-prompt "#{detect_winner(board)} won the set!"
+def display_set(player, computer)
+  if player > computer
+    prompt "The player won the set! #{player} : #{computer}"
+  elsif player < computer
+    prompt "The computer won the set! #{player} : #{computer}"
+  else
+    prompt "The set is tied! #{player} : #{computer}"
+  end
+end
+
+loop do
+  player_score = 0
+  computer_score = 0
+
+  welcome_and_rules
+
+  while player_score < 5 && computer_score < 5
+    current_player = decide_current_player
+
+    board = initialize_board
+
+    loop do
+      display_board(board, player_score, computer_score)
+      place_piece!(board, current_player)
+      current_player = alternate_player(current_player)
+      break if someone_won?(board) || board_full?(board)
+    end
+
+    display_board(board, player_score, computer_score)
+
+    player_score, computer_score = update_score(board, player_score, computer_score)
+
+    prompt "Play again? (y or n)"
+    answer = gets.chomp
+    break unless answer.downcase.start_with?('y')
+  end
+
+  display_set(player_score, computer_score)
+
+  prompt "Rematch? (y or n)"
+  rematch = gets.chomp
+  break unless rematch.downcase.start_with?('y')
+end
+
 prompt "Thanks for playing Tic Tac Toe. Goodbye!"
