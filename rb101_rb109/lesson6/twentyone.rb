@@ -192,17 +192,19 @@ loop do
       sleep(2)
     else
       prompt "You chose to stand!"
+      sleep(2)
     end
 
     loop do
       break if busted?(player_sum) || busted?(dealer_sum)
       prompt "Dealer turn:"
       sleep(2)
-      if dealer_sum < DEALER_STAND || (player_sum > dealer_sum)
-        prompt "Dealer hits"
+      if dealer_sum < DEALER_STAND
         dealer_hand = deal_cards(1, dealer_hand, player_hand)
         dealer_sum = detect_value(dealer_hand)
         display_hands(player_hand, dealer_hand, player_score, dealer_score, FALSE)
+        prompt "Dealer hits"
+        sleep(2)
       else
         break
       end
@@ -211,8 +213,10 @@ loop do
     if busted?(dealer_sum)
       prompt "Dealer busted!"
       sleep(2)
+    elsif busted?(player_sum)
     else
       prompt "Dealer chose to stand!"
+      sleep(2)
     end
 
     player_score, dealer_score = update_score(player_sum, dealer_sum, player_score, dealer_score)
