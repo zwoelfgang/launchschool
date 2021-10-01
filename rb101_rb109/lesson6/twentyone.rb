@@ -17,7 +17,7 @@ DECK = {
 
 RULES = <<-MSG
 *****************************************************
-                Welcome to #{LIMIT}!
+                   Welcome to #{LIMIT}!
 Two cards are dealt at the start of the game to the
 player and the dealer. The first card of the dealer
 is hidden from the player until the end of the round.
@@ -187,9 +187,7 @@ loop do
     end
 
     if busted?(player_sum)
-      prompt "Oh no, you busted! Stay at the table? (y or n)"
-      answer = gets.chomp
-      break unless answer.downcase.start_with?('y')
+      prompt "Oh no, you busted!"
     else
       prompt "You chose to stand!"
     end
@@ -209,9 +207,7 @@ loop do
     end
 
     if busted?(dealer_sum)
-      prompt "Dealer busted! Stay at the table? (y or n)"
-      answer = gets.chomp
-      break unless answer.downcase.start_with?('y')
+      prompt "Dealer busted!"
     else
       prompt "Dealer chose to stand!"
     end
@@ -219,7 +215,10 @@ loop do
     player_score, dealer_score = update_score(player_sum, dealer_sum, player_score, dealer_score)
     display_hands(player_hand, dealer_hand, player_score, dealer_score, TRUE)
     display_winner(player_sum, dealer_sum)
-    sleep(2)
+
+    prompt "Stay at the table? (y or n)"
+    answer = gets.chomp
+    break unless answer.downcase.start_with?('y')
   end
   display_set_score(player_score, dealer_score)
   answer = gets.chomp
