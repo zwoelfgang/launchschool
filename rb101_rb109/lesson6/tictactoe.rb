@@ -130,11 +130,11 @@ def detect_move(brd, player, computer)
     brd.values_at(*line).count(PLAYER_MARKER) == player &&
       brd.values_at(*line).count(COMPUTER_MARKER) == computer
   end
-  nested_arr.flatten
+  nested_arr
 end
 
 def open_place_in_line(brd, line)
-  line.select { |value| brd[value] == INITIAL_MARKER }.sample
+  line.flatten.select { |value| brd[value] == INITIAL_MARKER }.sample
 end
 
 def center_taken?(brd)
