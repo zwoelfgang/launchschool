@@ -9,10 +9,10 @@ LIMIT = 21
 DEALER_STAND = 17
 
 DECK = {
-  'hearts' => { values: CARD_VALUES, symbol: '♥' },
-  'diamonds' => { values: CARD_VALUES, symbol: '◆' },
-  'clubs' => { values: CARD_VALUES, symbol: '♣' },
-  'spades' => { values: CARD_VALUES, symbol: '♠' }
+  'hearts' => { values: CARD_VALUES, symbol: "\u2665" },
+  'diamonds' => { values: CARD_VALUES, symbol: "\u2666" },
+  'clubs' => { values: CARD_VALUES, symbol: "\u2663" },
+  'spades' => { values: CARD_VALUES, symbol: "\u2660" }
 }
 
 RULES = <<-MSG
