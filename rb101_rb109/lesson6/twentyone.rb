@@ -23,12 +23,13 @@ player and the dealer. The first card of the dealer
 is hidden from the player until the end of the round.
 
 The player can then choose to hit or stand, and the
-goal is to not go over the number #{LIMIT} while
-still having a higher number than the dealer. The
-dealer then has its turn, and the dealer will hit 
-until #{DEALER_STAND} or the player is closer to #{LIMIT}.
+goal is to not go over the number #{LIMIT} while still
+having a higher number than the dealer. The dealer
+then has its turn, and the dealer will hit until #{DEALER_STAND}
+or the player is closer to #{LIMIT}.
 
-Face cards are worth #{FACE_CARD} and aces are worth #{ACE}.
+Face cards are worth #{FACE_CARD} and aces are worth #{ACE}. Each
+ace can be changed to a value of #{ACE - ACE_DIFF} if over #{LIMIT}.
 
                      Have fun!
 *****************************************************
@@ -188,6 +189,7 @@ loop do
 
     if busted?(player_sum)
       prompt "Oh no, you busted!"
+      sleep(2)
     else
       prompt "You chose to stand!"
     end
@@ -208,6 +210,7 @@ loop do
 
     if busted?(dealer_sum)
       prompt "Dealer busted!"
+      sleep(2)
     else
       prompt "Dealer chose to stand!"
     end
