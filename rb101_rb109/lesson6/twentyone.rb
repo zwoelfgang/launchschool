@@ -1,5 +1,4 @@
 require 'io/console'
-require 'pry'
 
 CARD_VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 FACE_CARD = 10
