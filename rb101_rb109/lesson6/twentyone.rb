@@ -125,18 +125,18 @@ def busted?(sum)
 end
 
 def update_score(sum, other_sum, score, other_score)
-  if sum > other_sum && sum <= LIMIT || (other_sum > sum && other_sum > LIMIT)
+  if sum > other_sum && sum <= LIMIT || other_sum > LIMIT
     score += 1
-  elsif other_sum > sum && other_sum <= LIMIT || (sum > other_sum && sum > LIMIT)
+  elsif other_sum > sum && other_sum <= LIMIT || sum > LIMIT
     other_score += 1
   end
   return score, other_score
 end
 
 def display_winner(sum, other_sum)
-  if sum > other_sum && sum <= LIMIT || (other_sum > sum && other_sum > LIMIT)
+  if sum > other_sum && sum <= LIMIT || other_sum > LIMIT
     prompt "You won!"
-  elsif other_sum > sum && other_sum <= LIMIT || (sum > other_sum && sum > LIMIT)
+  elsif other_sum > sum && other_sum <= LIMIT || sum > LIMIT
     prompt "The dealer won!"
   else
     prompt "It's a tie!"
