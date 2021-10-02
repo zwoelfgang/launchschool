@@ -64,8 +64,8 @@ def display_hands(player, dealer, score, other_score, end_loop)
         puts "     ? | ?"
       elsif index == 0 && value.size > 1
         puts "     ? | ?"
-        value.each_with_index do |num, index|
-          if index > 0
+        value.each_with_index do |num, index_inner|
+          if index_inner > 0
             puts "     #{key} | #{num}"
           end
         end
