@@ -199,7 +199,7 @@ loop do
       break if busted?(player_sum) || busted?(dealer_sum)
       prompt "Dealer turn:"
       sleep(2)
-      if dealer_sum < DEALER_STAND
+      if dealer_sum < DEALER_STAND || (player_sum > dealer_sum)
         dealer_hand = deal_cards(1, dealer_hand, player_hand)
         dealer_sum = detect_value(dealer_hand)
         display_hands(player_hand, dealer_hand, player_score, dealer_score, FALSE)
