@@ -180,7 +180,7 @@ loop do
     loop do
       prompt "Hit or stand?"
       answer = gets.chomp
-      break if answer == 'stand'
+      break if answer.downcase.start_with?('s')
       player_hand = deal_cards(1, player_hand, dealer_hand)
       player_sum = detect_value(player_hand)
       display_hands(player_hand, dealer_hand, player_score, dealer_score, false)
