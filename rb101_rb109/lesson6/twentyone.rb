@@ -175,7 +175,7 @@ loop do
     player_sum = detect_value(player_hand)
     dealer_sum = detect_value(dealer_hand)
 
-    display_hands(player_hand, dealer_hand, player_score, dealer_score, FALSE)
+    display_hands(player_hand, dealer_hand, player_score, dealer_score, false)
 
     loop do
       prompt "Hit or stand?"
@@ -183,7 +183,7 @@ loop do
       break if answer == 'stand'
       player_hand = deal_cards(1, player_hand, dealer_hand)
       player_sum = detect_value(player_hand)
-      display_hands(player_hand, dealer_hand, player_score, dealer_score, FALSE)
+      display_hands(player_hand, dealer_hand, player_score, dealer_score, false)
       break if busted?(player_sum)
     end
 
@@ -202,7 +202,7 @@ loop do
       if dealer_sum < DEALER_STAND || (player_sum > dealer_sum)
         dealer_hand = deal_cards(1, dealer_hand, player_hand)
         dealer_sum = detect_value(dealer_hand)
-        display_hands(player_hand, dealer_hand, player_score, dealer_score, FALSE)
+        display_hands(player_hand, dealer_hand, player_score, dealer_score, false)
         prompt "Dealer hits"
         sleep(2)
       else
@@ -220,7 +220,7 @@ loop do
     end
 
     player_score, dealer_score = update_score(player_sum, dealer_sum, player_score, dealer_score)
-    display_hands(player_hand, dealer_hand, player_score, dealer_score, TRUE)
+    display_hands(player_hand, dealer_hand, player_score, dealer_score, true)
     display_winner(player_sum, dealer_sum)
 
     prompt "Stay at the table? (y or n)"
