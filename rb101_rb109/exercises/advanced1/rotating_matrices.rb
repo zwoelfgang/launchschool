@@ -11,25 +11,22 @@ matrix2 = [
 
 def rotate90(outer_array)
   new_outer_array = []
-  count = outer_array[-1].size
-  index = outer_array[-1].size
-  while count > 0
+  count = 0
+  inner_size = outer_array[-1].size - 1
+  outer_size = outer_array.size
+  while count <= inner_size
     new_outer_array << [outer_array[-1][count]]
-    count -= 1
+    count += 1
   end
-  count = outer_array[-2].size
-  while index > outer_array.size
-    while count > 0
-      new_outer_array[count] << outer_array[index][count]
-      count -= 1
+  count = 0
+  index = 2
+  while index <= outer_size
+    while count <= inner_size
+      new_outer_array[count] << outer_array[-index][count]
+      count += 1
     end
-    count = outer_array[]
+    count = 0
     index += 1
-    if outer_array[index] == nil
-      size = 0
-    else
-      size = outer_array[index].size
-    end
   end
   new_outer_array
 end
