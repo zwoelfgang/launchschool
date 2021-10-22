@@ -9,7 +9,7 @@ Input:
 
 Output:
 
-  # What is the form of the data you want the program to either store or print?
+  # What is the form of the data you want the program to either return or print?
 
 Explicit reqs:
 
