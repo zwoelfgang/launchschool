@@ -106,9 +106,9 @@ def joinor(squares_free, delim=', ', end_delim='or ')
   string = ''
   squares_free.each do |num|
     if num == squares_free.last
-      string << end_delim + num.to_s
+      string += end_delim + num.to_s
     else
-      string << num.to_s + delim
+      string += num.to_s + delim
     end
   end
   string
