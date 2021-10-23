@@ -66,4 +66,10 @@ def factors(target, factors = [3, 5])
   multiples.sum
 end
 
-factors(20, [3, 5]) == 78
+
+factors(20, [3, 5])  # returns 78
+factors(20, [3])     # returns 63
+factors(20, [5])     # returns 30
+factors(20)          # returns 78
+factors(1, [])       # returns 0
+factors(20, [19])    # returns 19
