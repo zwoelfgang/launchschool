@@ -1,5 +1,4 @@
 require 'io/console'
-require 'pry'
 
 module Displayable
   SET = 10
