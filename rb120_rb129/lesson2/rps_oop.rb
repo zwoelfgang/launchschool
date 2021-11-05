@@ -2,14 +2,15 @@ require 'io/console'
 require 'pry'
 
 module Displayable
+  SET = 10
   RULES = <<-MSG
-  ************************************_+_RPSLS_+_******************************************
+  ************************************_\u2660_RPSLS_\u2660_******************************************
   |  Rock beats lizard and scissors, Paper beats rock and spock,                          |
   |  Scisssors beats paper and lizard, Spock beats scissors and rock,                     |
   |  Lizard beats spock and paper                                                         |
   |---------------------------------------------------------------------------------------|
   |  Each computer player has a different style; see if you can figure it out! ;)         |
-  |  First to ten wins. Ties count as no points for the player and computer. Ready? Go!   |
+  |  First to #{SET} wins. Ties count as no points for the player and computer. Ready? Go!    |
   *****************************************************************************************
   MSG
 
@@ -128,12 +129,12 @@ class Human < Player
     loop do
       puts "=> Please choose rock, paper, scissors, spock or lizard" \
            " (or enter 'history' to see past moves):"
-      choice = gets.chomp
-      if choice.downcase == 'history'
+      choice = gets.chomp.downcase
+      if choice == 'history'
         print_history
         next
       end
-      break if Move::VALUES.keys.include?(choice.downcase)
+      break if Move::VALUES.keys.include?(choice)
       puts "=> Sorry, invalid choice."
     end
     self.move = Move.new(choice)
@@ -229,14 +230,17 @@ class RPSGame
   end
 
   def set_winner?
-    human.score >= 10 || computer.score >= 10
+    human.score >= SET || computer.score >= SET
   end
 
   def play
     STDOUT.clear_screen
     display_welcome_message
+    sleep(2)
     loop do
+      STDOUT.clear_screen
       display_rules
+      display_score
       human.choose
       computer.choose(human.name)
       display_moves
@@ -244,7 +248,6 @@ class RPSGame
       display_score
       break if set_winner?
       break unless play_again?
-      STDOUT.clear_screen
     end
     STDOUT.clear_screen
     display_set_winner
