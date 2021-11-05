@@ -14,7 +14,8 @@ module Displayable
   MSG
 
   def display_welcome_message
-    puts "=> Welcome to Rock, Paper, Scissors, (Spock and Lizard) #{human.name}!"
+    puts "=> Welcome to Rock, Paper, Scissors, (Spock and Lizard) " \
+      "#{human.name}!"
   end
 
   def display_rules
