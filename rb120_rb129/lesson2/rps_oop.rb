@@ -14,7 +14,7 @@ module Displayable
   MSG
 
   def display_welcome_message
-    puts "=> Welcome to Rock, Paper, Scissors, (Spock and Lizard)!"
+    puts "=> Welcome to Rock, Paper, Scissors, (Spock and Lizard) #{human.name}!"
   end
 
   def display_rules
@@ -23,7 +23,7 @@ module Displayable
 
   def display_goodbye_message
     puts "=> Thanks for playing Rock, Paper, Scissors, " \
-         "(Spock and Lizard). Goodbye!"
+         "(Spock and Lizard). Goodbye, #{human.name}!"
   end
 
   def display_moves
@@ -246,7 +246,6 @@ class RPSGame
       STDOUT.clear_screen
     end
     STDOUT.clear_screen
-    display_score
     display_set_winner
     display_goodbye_message
   end
