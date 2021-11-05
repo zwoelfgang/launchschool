@@ -245,7 +245,6 @@ class RPSGame
       computer.choose(human.name)
       display_moves
       display_winner
-      display_score(human, computer)
       break if set_winner?
       break unless play_again?
     end
