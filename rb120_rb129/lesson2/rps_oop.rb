@@ -140,54 +140,67 @@ class Human < Player
   end
 end
 
-class Computer < Player
+class R2D2 < Player
   def set_name
-    self.name = ['R2D2', 'Hal', 'Chappie', 'Sonny', 'Number 5'].sample
+    @name = 'R2D2'
   end
 
   def choose(human_name)
-    case name
-    when 'R2D2'
-      r2d2
-    when 'Hal'
-      hal(human_name)
-    when 'Chappie'
-      chappie
-    when 'Sonny'
-      sonny(human_name)
-    when 'Number 5'
-      number_5
-    end
+    self.move = Move.new(Move::VALUES.keys.sample)
     store_move
   end
+end
 
-  def r2d2
-    self.move = Move.new(Move::VALUES.keys.sample)
+class Hal < Player
+  def set_name
+    @name = 'Hal'
   end
 
-  def hal(human_name)
+  def choose(human_name)
     last_move = @@history[human_name].last
     array = Move::VALUES.select { |_, value| value.include?(last_move) }.keys
     self.move = Move.new(array.sample)
+    store_move
+  end
+end
+
+class Chappie < Player
+  def set_name
+    @name = 'Chappie'
   end
 
-  def chappie
+  def choose(human_name)
     array = []
     array << Move::VALUES.keys[rand(0..2)] << Move::VALUES.keys[4]
     self.move = Move.new(array.sample)
+    store_move
+  end
+end
+
+class Sonny < Player
+  def set_name
+    @name = 'Sonny'
   end
 
-  def sonny(human_name)
+  def choose(human_name)
     previous_move = Move::VALUES.values_at(@@history[human_name][-2]).flatten
     array = Move::VALUES.select do |key, value|
       key != previous_move[0] && key != previous_move[1] &&
         (!value.include?(previous_move[0]) || !value.include?(previous_move[1]))
     end.keys
     self.move = Move.new(array.sample)
+    store_move
+  end
+end
+
+class Number5 < Player
+  def set_name
+    @name = 'Number5'
   end
 
-  def number_5
+  def choose(human_name)
     self.move = Move.new(Move::VALUES.keys[4])
+    store_move
   end
 end
 
@@ -198,7 +211,7 @@ class RPSGame
 
   def initialize
     @human = Human.new
-    @computer = Computer.new
+    @computer = [R2D2.new, Hal.new, Chappie.new, Sonny.new, Number5.new].sample
   end
 
   def play_again?
