@@ -190,9 +190,15 @@ class Chappie < Player
     @name = 'Chappie'
   end
 
-  def choose(*)
-    array = []
-    array << Move::VALUES.keys[rand(0..2)] << Move::VALUES.keys[4]
+  def choose(human_name)
+    previous_move = @@history[human_name][-2]
+    array = if previous_move
+              Move::VALUES.select do |_, value|
+                value.include?(previous_move)
+              end.keys
+            else
+              [Move::VALUES.keys.sample]
+            end
     self.move = Move.new(array.sample)
     store_move
   end
