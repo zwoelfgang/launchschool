@@ -44,7 +44,7 @@ module Displayable
     end
   end
 
-  def display_score
+  def display_score(human, computer)
     puts "=> #{human.name}: #{human.score} | " \
          "#{computer.name}: #{computer.score}"
   end
@@ -89,6 +89,8 @@ class Move
 end
 
 class Player
+  include Displayable
+
   attr_accessor :score
   attr_reader :name, :move
 
@@ -103,15 +105,28 @@ class Player
 
   @@history = Hash.new([])
 
+  def resume_playing
+    loop do
+      puts "=> Press 'Enter' to go back to the game."
+      answer = gets
+      break if answer[-1] == "\n"
+    end
+  end
+
   def store_move
     @@history[name] += [move.value]
   end
 
-  def print_history
+  def print_history(computer)
+    STDOUT.clear_screen
     @@history.each do |key, value|
       puts "=> #{key} chose:"
       value.each { |element| puts '=>   ' + element }
     end
+    resume_playing
+    STDOUT.clear_screen
+    display_rules
+    display_score(self, computer)
   end
 end
 
@@ -128,14 +143,14 @@ class Human < Player
     self.name = n
   end
 
-  def choose
+  def choose(computer)
     choice = nil
     loop do
       puts "=> Please choose rock, paper, scissors, spock or lizard" \
            " (or enter 'history' to see past moves):"
       choice = gets.chomp.downcase
       if choice == 'history'
-        print_history
+        print_history(computer)
         next
       end
       break if Move::VALUES.keys.include?(choice)
@@ -225,12 +240,12 @@ class RPSGame
     loop do
       STDOUT.clear_screen
       display_rules
-      display_score
-      human.choose
+      display_score(human, computer)
+      human.choose(computer)
       computer.choose(human.name)
       display_moves
       display_winner
-      display_score
+      display_score(human, computer)
       break if set_winner?
       break unless play_again?
     end
