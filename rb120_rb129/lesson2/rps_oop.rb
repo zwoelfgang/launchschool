@@ -8,7 +8,7 @@ module Displayable
   |  Scisssors beats paper and lizard, Spock beats scissors and rock,                     |
   |  Lizard beats spock and paper                                                         |
   |---------------------------------------------------------------------------------------|
-  |  You can use r for rock, p for paper, s for scissors, sp for spock and l for lizard.  |
+  |  Each computer player has a different style; see if you can figure it out! ;)         |
   |  First to ten wins. Ties count as no point for the player and computer. Ready? Go!    |
   *****************************************************************************************
   MSG
