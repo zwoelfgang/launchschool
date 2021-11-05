@@ -9,7 +9,7 @@ module Displayable
   |  Lizard beats spock and paper                                                         |
   |---------------------------------------------------------------------------------------|
   |  Each computer player has a different style; see if you can figure it out! ;)         |
-  |  First to ten wins. Ties count as no point for the player and computer. Ready? Go!    |
+  |  First to ten wins. Ties count as no points for the player and computer. Ready? Go!   |
   *****************************************************************************************
   MSG
 
@@ -145,7 +145,7 @@ class R2D2 < Player
     @name = 'R2D2'
   end
 
-  def choose(human_name)
+  def choose(*)
     self.move = Move.new(Move::VALUES.keys.sample)
     store_move
   end
@@ -169,7 +169,7 @@ class Chappie < Player
     @name = 'Chappie'
   end
 
-  def choose(human_name)
+  def choose(*)
     array = []
     array << Move::VALUES.keys[rand(0..2)] << Move::VALUES.keys[4]
     self.move = Move.new(array.sample)
@@ -198,7 +198,7 @@ class Number5 < Player
     @name = 'Number5'
   end
 
-  def choose(human_name)
+  def choose(*)
     self.move = Move.new(Move::VALUES.keys[4])
     store_move
   end
