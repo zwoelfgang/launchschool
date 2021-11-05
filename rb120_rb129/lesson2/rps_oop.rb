@@ -195,7 +195,7 @@ end
 
 class Number5 < Player
   def set_name
-    @name = 'Number5'
+    @name = 'Number 5'
   end
 
   def choose(*)
