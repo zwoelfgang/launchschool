@@ -262,13 +262,13 @@ class RPSGame
     answer = nil
     loop do
       puts "=> Would you like to play again? (y/n)"
-      answer = gets.chomp
-      break if ['y', 'n'].include?(answer[0].downcase)
+      answer = gets.chomp.downcase
+      break if ['y', 'n'].include?(answer[0])
       puts "=> Sorry, must be y or n."
     end
 
-    return false if answer.downcase.start_with?('n')
-    return true if answer.downcase.start_with?('y')
+    return false if answer.start_with?('n')
+    return true if answer.start_with?('y')
   end
 
   def set_winner?
