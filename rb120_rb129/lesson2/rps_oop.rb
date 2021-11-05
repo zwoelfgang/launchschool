@@ -89,14 +89,19 @@ class Move
 end
 
 class Player
-  attr_accessor :name, :move, :score
-
-  @@history = Hash.new([])
+  attr_accessor :score
+  attr_reader :name, :move
 
   def initialize
     set_name
     @score = 0
   end
+
+  private
+
+  attr_writer :name, :move
+
+  @@history = Hash.new([])
 
   def store_move
     @@history[name] += [move.value]
@@ -208,28 +213,9 @@ end
 class RPSGame
   include Displayable
 
-  attr_accessor :human, :computer
-
   def initialize
     @human = Human.new
     @computer = [R2D2.new, Hal.new, Chappie.new, Sonny.new, Number5.new].sample
-  end
-
-  def play_again?
-    answer = nil
-    loop do
-      puts "=> Would you like to play again? (y/n)"
-      answer = gets.chomp
-      break if ['y', 'n'].include?(answer[0].downcase)
-      puts "=> Sorry, must be y or n."
-    end
-
-    return false if answer.downcase.start_with?('n')
-    return true if answer.downcase.start_with?('y')
-  end
-
-  def set_winner?
-    human.score >= SET || computer.score >= SET
   end
 
   def play
@@ -251,6 +237,27 @@ class RPSGame
     STDOUT.clear_screen
     display_set_winner
     display_goodbye_message
+  end
+
+  private
+
+  attr_accessor :human, :computer
+
+  def play_again?
+    answer = nil
+    loop do
+      puts "=> Would you like to play again? (y/n)"
+      answer = gets.chomp
+      break if ['y', 'n'].include?(answer[0].downcase)
+      puts "=> Sorry, must be y or n."
+    end
+
+    return false if answer.downcase.start_with?('n')
+    return true if answer.downcase.start_with?('y')
+  end
+
+  def set_winner?
+    human.score >= SET || computer.score >= SET
   end
 end
 
